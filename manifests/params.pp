@@ -17,7 +17,7 @@ class dhcp::params {
       $servicename = "org.macports.dhcpd"
     }
     'freebsd': {
-      $dhcp_dir    = "/usr/local/etc/dhcp"
+      $dhcp_dir    = "/usr/local/etc"
       $packagename = "net/isc-dhcp42-server"
       $servicename = "dhcpd"
     }
