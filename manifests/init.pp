@@ -29,8 +29,7 @@ class dhcp (
     $dhcp_interfaces = $interfaces
   }
 
-  package {
-    "$packagename":
+  package { $packagename:
       ensure => installed,
       provider => $operatingsystem ? {
         default => undef,
@@ -38,8 +37,7 @@ class dhcp (
       }
   }
 
-  file {
-    "${dhcp_dir}/dhcpd.conf":
+  file { "${dhcp_dir}/dhcpd.conf":
       owner   => root,
       group   => 0,
       mode    => 644,
@@ -58,6 +56,9 @@ class dhcp (
         before  => Package[$packagename],
         notify  => Service[$servicename],
         content => template('dhcp/debian/default_isc-dhcp-server'),
+        start   => $kernel ? { default => undef, "FreeBSD" => "/usr/local/etc/rc.d/isc-dhcpd onestart" },
+        stop    => $kernel ? { default => undef, "FreeBSD" => "/usr/local/etc/rc.d/isc-dhcpd onestop" },
+        restart => $kernel ? { default => undef, "FreeBSD" => "/usr/local/etc/rc.d/isc-dhcpd onerestart" },
       }
     }
   }
@@ -72,13 +73,12 @@ class dhcp (
     order   => 01,
   }
 
-  service {
-    "$servicename":
+  service { $servicename:
       enable    => "true",
       ensure    => "running",
       hasstatus => true,
       subscribe => [Concat["${dhcp_dir}/dhcpd.pools"], Concat["${dhcp_dir}/dhcpd.hosts"], File["${dhcp_dir}/dhcpd.conf"]],
-      require   => Package["$packagename"];
+      require   => Package[$packagename];
   }
 
   include dhcp::monitor
