@@ -56,9 +56,6 @@ class dhcp (
         before  => Package[$packagename],
         notify  => Service[$servicename],
         content => template('dhcp/debian/default_isc-dhcp-server'),
-        #start   => $kernel ? { default => undef, "FreeBSD" => "/usr/local/etc/rc.d/isc-dhcpd onestart" },
-        #stop    => $kernel ? { default => undef, "FreeBSD" => "/usr/local/etc/rc.d/isc-dhcpd onestop" },
-        #restart => $kernel ? { default => undef, "FreeBSD" => "/usr/local/etc/rc.d/isc-dhcpd onerestart" },
       }
     }
   }
