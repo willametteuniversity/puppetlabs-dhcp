@@ -19,7 +19,7 @@ class dhcp::params {
     'freebsd': {
       $dhcp_dir    = "/usr/local/etc"
       $packagename = "net/isc-dhcp42-server"
-      $servicename = "dhcpd"
+      $servicename = "isc-dhcpd"
     }
   }
 
