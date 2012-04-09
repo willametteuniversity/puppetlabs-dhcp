@@ -8,7 +8,7 @@ class dhcp::disable {
   $servicename = $dhcp::params::servicename
 
   package { $packagename:
-      ensure => absent;
+    ensure => absent;
   }
 
   service { $servicename:
