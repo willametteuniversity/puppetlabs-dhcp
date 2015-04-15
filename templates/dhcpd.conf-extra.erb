@@ -2,4 +2,13 @@
 include "<%= @dhcp_dir %>/dhcpd.pools";
 include "<%= @dhcp_dir %>/dhcpd.hosts";
 include "<%= @dhcp_dir %>/dhcpd.ignoredsubnets";
+include "/etc/dhcp/reservations/reservations.conf";
+<% if omapi -%>
+key omap_key {
+        algorithm HMAC-MD5;
+        secret "<%= @omapi_key %>";
+};
+omapi-port <%= @omapi_port %>;
+omapi-key omap_key;
+<% end -%>
 # END DHCP Extra configurations
